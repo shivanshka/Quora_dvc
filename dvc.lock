@@ -1,0 +1,67 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/Quora_App/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      md5: 86011ddaef5a6af0e740e6b5e14d2a5c
+      size: 988
+    - path: src/Quora_App/pipeline/stage_01_data_ingestion.py
+      md5: dc997be016b22c57ab2bb46db28c579b
+      size: 888
+    outs:
+    - path: Quora_Artifacts/artifacts/data_ingestion/raw_data/quora_dummy_data_50k.csv
+      md5: d68bd01a88b5adb80405e5f653345202
+      size: 7347973
+    - path: Quora_Artifacts/artifacts/data_ingestion/zipped_data/quora_data.zip
+      md5: 5015594c04acac35953d494d23c17c69
+      size: 2722293
+  data_validation:
+    cmd: python src/Quora_App/pipeline/stage_02_data_validation.py
+    deps:
+    - path: Quora_Artifacts/artifacts/data_ingestion/raw_data/quora_dummy_data_50k.csv
+      md5: d68bd01a88b5adb80405e5f653345202
+      size: 7347973
+    - path: config/config.yaml
+      md5: 86011ddaef5a6af0e740e6b5e14d2a5c
+      size: 988
+    - path: config/schema.yaml
+      md5: 38b4d7fea334a889ee2925cd61ff5da0
+      size: 145
+    - path: src/Quora_App/pipeline/stage_01_data_ingestion.py
+      md5: dc997be016b22c57ab2bb46db28c579b
+      size: 888
+    - path: src/Quora_App/pipeline/stage_02_data_validation.py
+      md5: c68f036a53548fb7663c41bcceddd261
+      size: 1139
+  data_transformation:
+    cmd: python src/Quora_App/pipeline/stage_03_data_transformation.py
+    deps:
+    - path: Quora_Artifacts/artifacts/data_ingestion/raw_data/quora_dummy_data_50k.csv
+      md5: d68bd01a88b5adb80405e5f653345202
+      size: 7347973
+    - path: config/config.yaml
+      md5: 86011ddaef5a6af0e740e6b5e14d2a5c
+      size: 988
+    - path: src/Quora_App/pipeline/stage_01_data_ingestion.py
+      md5: dc997be016b22c57ab2bb46db28c579b
+      size: 888
+    - path: src/Quora_App/pipeline/stage_02_data_validation.py
+      md5: c68f036a53548fb7663c41bcceddd261
+      size: 1139
+    outs:
+    - path: Quora_Artifacts/artifacts/data_transformation/preprocessed/feat_eng.pkl
+      md5: 6255a78087e5319b9f92d3e657985799
+      size: 1417
+    - path: Quora_Artifacts/artifacts/data_transformation/preprocessed/preprocessed.pkl
+      md5: 942d498cd5026708a3f367966b6193e9
+      size: 576
+    - path: Quora_Artifacts/artifacts/data_transformation/preprocessed/word2tfidf.pkl
+      md5: c5290efbb3a5ddef80f6ba72df95f994
+      size: 1710123
+    - path: Quora_Artifacts/artifacts/data_transformation/transformed_data/test/transformed_test.parquet
+      md5: 28e77f72a6e464831b05a159e2c61c01
+      size: 51177975
+    - path: Quora_Artifacts/artifacts/data_transformation/transformed_data/train/transformed_train.parquet
+      md5: 7dec42237722e223a991f8b877634bc5
+      size: 202506411

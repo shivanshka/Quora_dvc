@@ -1,0 +1,26 @@
+scikit-learn
+numpy
+pandas
+matplotlib
+seaborn
+notebook
+PyYAML
+scipy
+python-box==6.0.2
+tqdm
+ensure==1.0.2
+joblib
+types-PyYAML
+dvc
+flask
+flask-cors
+distance
+nltk
+spacy
+beautifulsoup4
+fuzzywuzzy
+python_Levenshtein
+pyarrow
+
+# For installing local package
+-e .

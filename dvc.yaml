@@ -1,0 +1,43 @@
+stages:
+  data_ingestion:
+    cmd: python src/Quora_App/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/Quora_App/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - Quora_Artifacts/artifacts/data_ingestion/raw_data/quora_dummy_data_50k.csv
+      - Quora_Artifacts/artifacts/data_ingestion/zipped_data/quora_data.zip
+
+  data_validation:
+    cmd: python src/Quora_App/pipeline/stage_02_data_validation.py
+    deps:
+      - src/Quora_App/pipeline/stage_01_data_ingestion.py
+      - src/Quora_App/pipeline/stage_02_data_validation.py
+      - config/config.yaml
+      - config/schema.yaml
+      - Quora_Artifacts/artifacts/data_ingestion/raw_data/quora_dummy_data_50k.csv
+
+  data_transformation:
+    cmd: python src/Quora_App/pipeline/stage_03_data_transformation.py
+    deps:
+      - src/Quora_App/pipeline/stage_01_data_ingestion.py
+      - src/Quora_App/pipeline/stage_02_data_validation.py
+      - config/config.yaml
+      - Quora_Artifacts/artifacts/data_ingestion/raw_data/quora_dummy_data_50k.csv
+    outs:
+      - Quora_Artifacts/artifacts/data_transformation/preprocessed/feat_eng.pkl
+      - Quora_Artifacts/artifacts/data_transformation/preprocessed/preprocessed.pkl
+      - Quora_Artifacts/artifacts/data_transformation/preprocessed/word2tfidf.pkl
+      - Quora_Artifacts/artifacts/data_transformation/transformed_data/train/transformed_train.parquet
+      - Quora_Artifacts/artifacts/data_transformation/transformed_data/test/transformed_test.parquet
+  
+  model_training:
+    cmd: python src/Quora_App/pipeline/stage_04_model_trainer.py
+    deps:
+      - src/Quora_App/pipeline/stage_01_data_ingestion.py
+      - src/Quora_App/pipeline/stage_03_data_transformation.py
+      - config/config.yaml
+      - Quora_Artifacts/artifacts/data_transformation/transformed_data/train/transformed_train.parquet
+      - Quora_Artifacts/artifacts/data_transformation/transformed_data/test/transformed_test.parquet
+    outs:
+      - Quora_Artifacts/artifacts/model_trainer/trained_model/model.pkl
