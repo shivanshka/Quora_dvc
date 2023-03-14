@@ -100,7 +100,7 @@ class Configuration:
             model_trainer_artifact_dir= os.path.join(self.artifact_dir,
                                                      MODEL_TRAINER_ARTIFACT_DIR_KEY)
             
-            trained_model_file_path= os.path.join.path(model_trainer_artifact_dir,
+            trained_model_file_path= os.path.join(model_trainer_artifact_dir,
                                                        model_trainer_info.model_file_name)
             
             model_trainer_config= ModelTrainerConfig(trained_model_file_path=Path(trained_model_file_path),
